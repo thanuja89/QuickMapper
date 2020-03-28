@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace QuickMapper.Console
+namespace QuickMapper.Csl
 {
     class Program
     {
