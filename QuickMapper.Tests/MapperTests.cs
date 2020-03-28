@@ -91,7 +91,7 @@ namespace QuickMapper.Tests
         public int? Prop6 { get; set; }
     }
 
-    public struct C
+    public class C
     {
         public int f1;
         public string f2;

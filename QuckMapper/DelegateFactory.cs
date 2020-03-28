@@ -18,7 +18,7 @@ namespace QuckMapper.Core
         /// <typeparam name="T">Destination Type</typeparam>
         /// <param name="propertyAccessors">Matching property accessors</param>
         /// <returns>MappingDelegate</returns>
-        public static MappingDelegate<S, T> Create<S, T>(Dictionary<MethodInfo, MethodInfo> propertyAccessors)
+        public static MappingDelegate<S, T> Create<S, T>(Dictionary<MemberInfo, MemberInfo> propertyAccessors)
         {
             var args = new Type[]
             {
@@ -35,8 +35,15 @@ namespace QuckMapper.Core
                 gen.Emit(OpCodes.Ldarg_1);
                 gen.Emit(OpCodes.Ldarg_0);
 
-                gen.Emit(OpCodes.Callvirt, pair.Value);
-                gen.Emit(OpCodes.Callvirt, pair.Key);
+                if (pair.Value is MethodInfo sourceMi)
+                    gen.Emit(OpCodes.Callvirt, sourceMi);
+                else if (pair.Key is FieldInfo sourceFi)
+                    gen.Emit(OpCodes.Ldfld, sourceFi);
+
+                if (pair.Key is MethodInfo targetMi)
+                    gen.Emit(OpCodes.Callvirt, targetMi);
+                else if (pair.Key is FieldInfo targetFi)
+                    gen.Emit(OpCodes.Stfld, targetFi);
             }
 
             gen.Emit(OpCodes.Ldarg_0);

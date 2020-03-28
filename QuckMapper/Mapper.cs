@@ -10,7 +10,9 @@ namespace QuckMapper.Core
     /// </summary>
     /// <typeparam name="TSource">Source</typeparam>
     /// <typeparam name="TTarget">Target</typeparam>
-    public static class Mapper<TSource, TTarget>
+    public static class Mapper<TSource, TTarget> 
+        where TSource : class 
+        where TTarget : class
     {
         /// <summary>
         /// Cached delegate
@@ -30,28 +32,44 @@ namespace QuckMapper.Core
             
             var getters = typeof(TSource)
                 .GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                .Select(p => new
+                .Select(p => new AccessorPropertyPair
                 {
-                    Getter = p.GetGetMethod(),
-                    Property = p
+                    Accessor = p.GetGetMethod(),
+                    Member = p
+                });
+
+            var sourceFields = typeof(TSource)
+                .GetFields(BindingFlags.Public | BindingFlags.Instance)
+                .Select(f => new AccessorPropertyPair
+                {
+                    Member = f
                 });
 
             var setters = typeof(TTarget)
                 .GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                .Select(p => new
+                .Select(p => new AccessorPropertyPair
                 {
-                    Setter = p.GetSetMethod(),
-                    Property = p
+                    Accessor = p.GetSetMethod(),
+                    Member = p
                 });
 
-            var matches = new Dictionary<MethodInfo, MethodInfo>();
+            var destFields = typeof(TSource)
+                .GetFields(BindingFlags.Public | BindingFlags.Instance)
+                .Select(f => new AccessorPropertyPair
+                {
+                    Member = f
+                });
 
-            foreach (var setter in setters)
+            var matches = new Dictionary<MemberInfo, MemberInfo>();
+
+            foreach (var setter in setters.Union(sourceFields))
             {
-                var matchingGetter = getters.FirstOrDefault(g => g.Property.Name == setter.Property.Name && g.Property.GetType() == setter.Property.GetType());
+                var matchingGetter = getters.Union(destFields)
+                    .FirstOrDefault(g => g.Member.Name == setter.Member.Name 
+                        && g.Member.GetType() == setter.Member.GetType());
 
                 if (matchingGetter != null)
-                    matches[setter.Setter] = matchingGetter.Getter;
+                    matches[setter.Accessor ?? setter.Member] = matchingGetter.Accessor ?? matchingGetter.Member;
             }
            
             var del = DelegateFactory.Create<TSource, TTarget>(matches);
@@ -63,5 +81,11 @@ namespace QuckMapper.Core
 
             return val;
         }
+    }
+
+    public class AccessorPropertyPair
+    {
+        public MethodInfo Accessor { get; set; }
+        public MemberInfo Member { get; set; }
     }
 }
