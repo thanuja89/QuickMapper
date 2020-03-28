@@ -82,10 +82,4 @@ namespace QuckMapper.Core
             return val;
         }
     }
-
-    public class AccessorPropertyPair
-    {
-        public MethodInfo Accessor { get; set; }
-        public MemberInfo Member { get; set; }
-    }
 }
