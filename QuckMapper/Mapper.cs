@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 
 namespace QuckMapper.Core
 {
@@ -53,7 +54,11 @@ namespace QuckMapper.Core
                     matches[setter.Setter] = matchingGetter.Getter;
             }
            
-            _delegate = DelegateFactory.Create<TSource, TTarget>(matches);
+            var del = DelegateFactory.Create<TSource, TTarget>(matches);
+
+            // Write to the field and flush the cache
+            Volatile.Write(ref _delegate, del);
+
             var val = _delegate(source, dest);
 
             return val;
