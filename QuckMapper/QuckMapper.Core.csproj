@@ -1,9 +1,17 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-  </PropertyGroup>
 
+    <TargetFramework>netstandard2.0</TargetFramework>
+
+    <PackageId>TD.QuickMapper</PackageId>
+    <Version>1.0.1-alpha</Version>
+    <Authors>Thanuja.S</Authors>
+    <Description>A fast object mapper</Description>
+    <IsPackable>true</IsPackable>
+
+  </PropertyGroup>
+  
   <PropertyGroup Condition="$([System.Text.RegularExpressions.Regex]::IsMatch('$(TargetFramework)', '^net\d'))">
     <DefineConstants>NETFRAMEWORK</DefineConstants>
   </PropertyGroup>
