@@ -27,6 +27,12 @@ namespace QuckMapper.Core
         /// <returns>Target</returns>
         public static TTarget MapTo(TSource source, TTarget dest)
         {
+            if (source is null)
+                throw new System.ArgumentNullException(nameof(source));
+
+            if (dest is null)
+                throw new System.ArgumentNullException(nameof(dest));
+
             if (_delegate != null)
                 return _delegate(source, dest);
             
@@ -36,14 +42,17 @@ namespace QuckMapper.Core
                 {
                     Accessor = p.GetGetMethod(),
                     Member = p
-                });
+                }).ToList();
 
             var sourceFields = typeof(TSource)
                 .GetFields(BindingFlags.Public | BindingFlags.Instance)
                 .Select(f => new AccessorPropertyPair
                 {
                     Member = f
-                });
+                }).ToList();
+
+            if (getters.Count == 0 && sourceFields.Count == 0)
+                return dest;
 
             var setters = typeof(TTarget)
                 .GetProperties(BindingFlags.Public | BindingFlags.Instance)
@@ -51,14 +60,17 @@ namespace QuckMapper.Core
                 {
                     Accessor = p.GetSetMethod(),
                     Member = p
-                });
+                }).ToList();
 
             var destFields = typeof(TSource)
                 .GetFields(BindingFlags.Public | BindingFlags.Instance)
                 .Select(f => new AccessorPropertyPair
                 {
                     Member = f
-                });
+                }).ToList();
+
+            if (setters.Count == 0 && destFields.Count == 0)
+                return dest;
 
             var matches = new Dictionary<MemberInfo, MemberInfo>();
 
@@ -71,7 +83,10 @@ namespace QuckMapper.Core
                 if (matchingGetter != null)
                     matches[setter.Accessor ?? setter.Member] = matchingGetter.Accessor ?? matchingGetter.Member;
             }
-           
+
+            if (matches.Count == 0)
+                return dest;
+
             var del = DelegateFactory.Create<TSource, TTarget>(matches);
 
             // Write to the field and flush the cache

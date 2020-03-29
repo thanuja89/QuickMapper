@@ -59,6 +59,13 @@ namespace QuickMapper.Tests
             Assert.Equal(_c.f1, _d.f1);
             Assert.Equal(_c.f2, _d.f2);
         }
+
+        [Fact]
+        public void Map_WhenCalled_ShoudThrowIfAnyArgumentIsNull()
+        {
+            Assert.Throws<ArgumentNullException>(() => Mapper<A, B>.MapTo(null, _b));
+            Assert.Throws<ArgumentNullException>(() => Mapper<A, B>.MapTo(_a, null));
+        }
     }
 
     public class A

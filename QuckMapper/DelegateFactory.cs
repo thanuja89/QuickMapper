@@ -26,7 +26,9 @@ namespace QuckMapper.Core
                 typeof(T)
             };
 
-            var method = new DynamicMethod($"Map{nameof(S)}To{nameof(T)}", typeof(T), args, Assembly.GetExecutingAssembly().Modules.First());
+            var method = new DynamicMethod($"Map{nameof(S)}To{nameof(T)}"
+                , typeof(T), args
+                , Assembly.GetExecutingAssembly().Modules.First());
 
             var gen = method.GetILGenerator();
 
