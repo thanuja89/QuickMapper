@@ -3,7 +3,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 
-namespace QuckMapper.Core
+namespace QuickMapper.Core
 {
     /// <summary>
     /// Mapper
@@ -38,36 +38,22 @@ namespace QuckMapper.Core
             
             var getters = typeof(TSource)
                 .GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                .Select(p => new AccessorPropertyPair
-                {
-                    Accessor = p.GetGetMethod(),
-                    Member = p
-                }).ToList();
+                .Select(p => new AccessorPropertyPair(p.GetGetMethod(), p)).ToList();
 
             var sourceFields = typeof(TSource)
                 .GetFields(BindingFlags.Public | BindingFlags.Instance)
-                .Select(f => new AccessorPropertyPair
-                {
-                    Member = f
-                }).ToList();
+                .Select(f => new AccessorPropertyPair(default, f)).ToList();
 
             if (getters.Count == 0 && sourceFields.Count == 0)
                 return dest;
 
             var setters = typeof(TTarget)
                 .GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                .Select(p => new AccessorPropertyPair
-                {
-                    Accessor = p.GetSetMethod(),
-                    Member = p
-                }).ToList();
+                .Select(p => new AccessorPropertyPair(p.GetSetMethod(), p)).ToList();
 
             var destFields = typeof(TSource)
                 .GetFields(BindingFlags.Public | BindingFlags.Instance)
-                .Select(f => new AccessorPropertyPair
-                {
-                    Member = f
-                }).ToList();
+                .Select(f => new AccessorPropertyPair(default, f)).ToList();
 
             if (setters.Count == 0 && destFields.Count == 0)
                 return dest;
@@ -80,7 +66,7 @@ namespace QuckMapper.Core
                     .FirstOrDefault(g => g.Member.Name == setter.Member.Name 
                         && g.Member.GetType() == setter.Member.GetType());
 
-                if (matchingGetter != null)
+                if (matchingGetter != default)
                     matches[setter.Accessor ?? setter.Member] = matchingGetter.Accessor ?? matchingGetter.Member;
             }
 

@@ -1,4 +1,4 @@
-﻿namespace QuckMapper.Core
+﻿namespace QuickMapper.Core
 {
     /// <summary>
     /// 
@@ -8,5 +8,5 @@
     /// <param name="source">Source</param>
     /// <param name="target">Target</param>
     /// <returns>Target</returns>
-    public delegate TTarget MappingDelegate<TSource, TTarget>(TSource source, TTarget target);
+    public delegate TTarget MappingDelegate<in TSource, TTarget>(TSource source, TTarget target);
 }

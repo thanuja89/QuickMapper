@@ -4,9 +4,9 @@ namespace QuickMapper.Benchmarks
 {
     class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
-            var summary = BenchmarkRunner.Run(typeof(Program).Assembly);
+            _ = BenchmarkRunner.Run(typeof(Program).Assembly);
         }
     }
 }

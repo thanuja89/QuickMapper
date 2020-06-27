@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\QuckMapper\QuckMapper.Core.csproj" />
+    <ProjectReference Include="..\QuckMapper\QuickMapper.Core.csproj" />
   </ItemGroup>
 
 </Project>

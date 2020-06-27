@@ -4,6 +4,7 @@ using System;
 
 namespace QuickMapper.Benchmarks
 {
+    [MemoryDiagnoser]
     public class MapperBenchmarks
     {
         private readonly IMapper _autoMapper;
@@ -30,7 +31,7 @@ namespace QuickMapper.Benchmarks
         }
 
         [Benchmark]
-        public B QuickMap() => QuckMapper.Core.Mapper<A, B>.MapTo(_a, _b);
+        public B QuickMap() => Core.Mapper<A, B>.MapTo(_a, _b);
 
         [Benchmark]
         public B AutoMap() => _autoMapper.Map(_a, _b);

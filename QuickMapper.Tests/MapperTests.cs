@@ -1,5 +1,5 @@
-﻿using QuckMapper.Core;
-using System;
+﻿using System;
+using QuickMapper.Core;
 using Xunit;
 
 namespace QuickMapper.Tests
@@ -25,8 +25,8 @@ namespace QuickMapper.Tests
 
             _c = new C
             {
-                f1 = 1,
-                f2 = "Test"
+                F1 = 1,
+                F2 = "Test"
             };
 
             _d = new D();
@@ -56,12 +56,12 @@ namespace QuickMapper.Tests
         {
             Mapper<C, D>.MapTo(_c, _d);
 
-            Assert.Equal(_c.f1, _d.f1);
-            Assert.Equal(_c.f2, _d.f2);
+            Assert.Equal(_c.F1, _d.F1);
+            Assert.Equal(_c.F2, _d.F2);
         }
 
         [Fact]
-        public void Map_WhenCalled_ShoudThrowIfAnyArgumentIsNull()
+        public void Map_WhenCalled_ShouldThrowIfAnyArgumentIsNull()
         {
             Assert.Throws<ArgumentNullException>(() => Mapper<A, B>.MapTo(null, _b));
             Assert.Throws<ArgumentNullException>(() => Mapper<A, B>.MapTo(_a, null));
@@ -100,14 +100,14 @@ namespace QuickMapper.Tests
 
     public class C
     {
-        public int f1;
-        public string f2;
+        public int F1;
+        public string F2;
     }
 
 
     public class D
     {
-        public int f1;
-        public string f2;
+        public int F1;
+        public string F2;
     }
 }

@@ -5,11 +5,11 @@ VisualStudioVersion = 16.0.29920.165
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuickMapper.Csl", "QuickMapper.Console\QuickMapper.Csl.csproj", "{20142496-3BC8-4D2D-83F1-97287E3EF856}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuckMapper.Core", "QuckMapper\QuckMapper.Core.csproj", "{D1AA7E41-8CA5-4B0F-9D4B-0AD14375BD1B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuickMapper.Core", "QuckMapper\QuickMapper.Core.csproj", "{D1AA7E41-8CA5-4B0F-9D4B-0AD14375BD1B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuickMapper.Tests", "QuickMapper.Tests\QuickMapper.Tests.csproj", "{E439A409-303F-4E85-8FB6-E1476F3BF974}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickMapper.Benchmarks", "QuickMapper.Benchmarks\QuickMapper.Benchmarks.csproj", "{1D9248AB-1F16-41F1-9ACF-15A41D77B806}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuickMapper.Benchmarks", "QuickMapper.Benchmarks\QuickMapper.Benchmarks.csproj", "{1D9248AB-1F16-41F1-9ACF-15A41D77B806}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
